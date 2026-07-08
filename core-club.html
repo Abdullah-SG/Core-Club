@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Core Club — تتبّع أنشطتك، سعراتك، ماءك وقياساتك في مكان واحد">
+<meta name="theme-color" content="#EBE5F7">
+<title>Core Club — Build better days</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EBE5F7;
+  --card:#FBF9F4;
+  --ink:#191623;
+  --muted:#8F8A9E;
+  --purple:#BFA0F1;
+  --purple-soft:#D3BDF7;
+  --mint:#BDE7D2;
+  --peach:#F9D28C;
+  --pink:#F5A9DE;
+  --blue:#BFD9F2;
+  --green:#4FAE7C;
+  --green-soft:#CDEBDA;
+  --red:#E2604C;
+  --red-soft:#F6C9C0;
+  --yellow:#E8A93C;
+  --yellow-soft:#F8E6B4;
+  --radius:26px;
+  --shadow:0 10px 30px rgba(60,40,110,.10);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{
+  background:linear-gradient(160deg,#EFE9FA 0%,#E9E2F6 55%,#F3EDF9 100%);
+  font-family:'IBM Plex Sans Arabic',system-ui,-apple-system,'Segoe UI',sans-serif;
+  color:var(--ink);
+  display:flex;justify-content:center;
+  min-height:100dvh;
+}
+#phone{
+  width:100%;max-width:440px;min-height:100dvh;
+  position:relative;overflow-x:hidden;
+  padding:0 18px;
+}
+.screen{display:none;animation:fadeIn .35s ease}
+.screen.on{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+button{font-family:inherit;border:none;cursor:pointer;background:none;color:inherit}
+input,select{font-family:inherit;font-size:16px;border:none;outline:none;background:#fff;border-radius:16px;padding:14px 16px;width:100%;color:var(--ink)}
+input::placeholder{color:#B7B2C4}
+h1,h2,h3{font-weight:700;letter-spacing:-.2px}
+.card{background:var(--card);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;font-size:12px;font-weight:600;background:rgba(255,255,255,.6)}
+.btn{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  background:var(--ink);color:#fff;font-weight:600;font-size:16px;
+  border-radius:999px;padding:16px 24px;width:100%;
+  transition:transform .15s ease,opacity .15s;
+}
+.btn:active{transform:scale(.97)}
+.btn.ghost{background:rgba(255,255,255,.75);color:var(--ink)}
+.btn.small{padding:10px 18px;font-size:14px;width:auto}
+.btn:disabled{opacity:.4;cursor:default}
+
+/* ===== Welcome ===== */
+#welcome{min-height:100dvh;display:none;flex-direction:column;justify-content:space-between;padding:28px 6px 40px}
+#welcome.on{display:flex}
+.w-blobs{position:relative;height:44vh;min-height:280px}
+.blob{position:absolute;border-radius:38%}
+.b1{width:150px;height:150px;background:var(--purple);top:8%;right:6%;border-radius:50% 42% 55% 45%;transform:rotate(-12deg)}
+.b2{width:96px;height:96px;background:var(--peach);top:44%;left:14%;border-radius:46% 54% 40% 60%}
+.b3{width:70px;height:70px;background:var(--pink);top:6%;left:30%;border-radius:50%}
+.b4{width:118px;height:118px;background:var(--mint);bottom:0;right:32%;border-radius:56% 44% 52% 48%}
+.b5{width:54px;height:54px;background:var(--ink);top:36%;right:38%;border-radius:50%}
+.blob{animation:float 6s ease-in-out infinite}
+.b2{animation-delay:1.2s}.b3{animation-delay:2.1s}.b4{animation-delay:.6s}.b5{animation-delay:1.7s}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+.w-text{text-align:center;padding:0 8px}
+.w-text h1{font-size:58px;line-height:1.08;letter-spacing:-1px}
+.w-text .slogan{font-size:19px;color:var(--ink);font-weight:600;margin-top:8px}
+.w-text p.sub{color:var(--muted);margin-top:12px;font-size:14px;line-height:1.8}
+.w-text .accent{color:#7C4DDB;font-weight:700}
+.w-actions{display:flex;flex-direction:column;gap:10px;margin-top:26px}
+
+/* ===== Login ===== */
+#login{min-height:100dvh;display:none;flex-direction:column;justify-content:center;padding:24px 6px}
+#login.on{display:flex}
+.login-card{background:var(--card);border-radius:32px;padding:32px 26px;box-shadow:0 18px 40px rgba(60,40,110,.14)}
+.login-card .l-emoji{font-size:46px;margin-bottom:10px}
+.login-card h2{font-size:26px;margin-bottom:6px}
+.login-card p{color:var(--muted);font-size:13px;margin-bottom:20px;line-height:1.7}
+.login-card input{background:#F1EDE3;margin-bottom:10px;font-weight:600}
+.l-actions{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+.l-err{color:var(--red);font-size:13px;font-weight:700;min-height:20px;margin-top:2px;text-align:center;line-height:1.6}
+.l-back{text-align:center;color:var(--muted);font-size:13px;font-weight:600;padding:14px;width:100%}
+
+/* ===== Onboarding card stack ===== */
+#onboarding{min-height:100dvh;display:none;flex-direction:column;padding:24px 2px 34px}
+#onboarding.on{display:flex}
+.ob-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.ob-progress{flex:1;height:6px;background:rgba(255,255,255,.6);border-radius:99px;margin:0 14px;overflow:hidden}
+.ob-progress i{display:block;height:100%;background:var(--ink);border-radius:99px;transition:width .35s ease}
+.ob-count{font-size:12px;font-weight:600;color:var(--muted)}
+.stack-wrap{flex:1;position:relative;display:flex;align-items:center;justify-content:center;padding:14px 0}
+.stack{position:relative;width:100%;max-width:360px;height:430px}
+.qcard{
+  position:absolute;inset:0;background:var(--card);border-radius:32px;
+  box-shadow:0 18px 40px rgba(60,40,110,.14);
+  padding:30px 26px;display:flex;flex-direction:column;
+  transition:transform .4s cubic-bezier(.22,.9,.3,1),opacity .4s;
+}
+.qcard.pos1{transform:translateY(16px) scale(.94);opacity:.75;pointer-events:none;background:#F3EEE4}
+.qcard.pos2{transform:translateY(32px) scale(.88);opacity:.45;pointer-events:none;background:#EDE7DB}
+.qcard.gone{transform:translateY(-120%) rotate(-6deg);opacity:0;pointer-events:none}
+.q-emoji{font-size:52px;margin-bottom:14px}
+.q-title{font-size:24px;font-weight:700;line-height:1.35}
+.q-hint{color:var(--muted);font-size:13px;margin-top:6px;line-height:1.6}
+.q-body{flex:1;display:flex;flex-direction:column;justify-content:center;gap:10px;margin-top:12px}
+.q-body input{background:#F1EDE3;font-size:18px;text-align:center;font-weight:600}
+.opt-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opt{
+  background:#F1EDE3;border-radius:18px;padding:18px 10px;text-align:center;
+  font-weight:600;font-size:16px;border:2px solid transparent;transition:.15s;
+}
+.opt .oe{display:block;font-size:30px;margin-bottom:6px}
+.opt.sel{border-color:var(--ink);background:var(--purple-soft)}
+.days-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.dayopt{background:#F1EDE3;border-radius:14px;padding:13px 6px;text-align:center;font-size:14px;font-weight:600;border:2px solid transparent}
+.dayopt.sel{background:var(--mint);border-color:var(--ink)}
+.list-builder{display:flex;gap:8px}
+.list-builder input{flex:1}
+.list-builder button{background:var(--ink);color:#fff;border-radius:14px;padding:0 18px;font-weight:700;font-size:20px}
+.rot-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;max-height:130px;overflow:auto}
+.rot-chip{background:var(--purple-soft);border-radius:999px;padding:8px 14px;font-size:14px;font-weight:600;display:inline-flex;align-items:center;gap:8px;cursor:pointer}
+.rot-chip b{font-weight:700;opacity:.55}
+.rot-chip button{font-size:16px;line-height:1;opacity:.6}
+.rot-chip.next{outline:2px solid var(--ink)}
+.ob-btns{display:flex;gap:10px;margin-top:16px}
+.ob-btns .back{flex:0 0 34%;background:rgba(255,255,255,.78);color:var(--ink)}
+
+/* ===== App shell ===== */
+#app{display:none;padding-bottom:110px}
+#app.on{display:block}
+.page{display:none;animation:fadeIn .3s ease;padding-top:18px}
+.page.on{display:block}
+#nav{
+  position:fixed;bottom:18px;left:50%;transform:translateX(-50%);
+  background:var(--ink);border-radius:999px;padding:9px;
+  display:flex;gap:4px;box-shadow:0 14px 34px rgba(20,15,40,.35);z-index:50;
+}
+#nav button{
+  width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  color:#8E8A9C;transition:.2s;
+}
+#nav button.on{background:#fff;color:var(--ink)}
+#nav svg{width:23px;height:23px}
+
+/* ===== Home ===== */
+.home-head{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.avatar{width:46px;height:46px;border-radius:50%;background:var(--pink);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.home-head .hh{flex:1}
+.home-head .hh b{font-size:16px;display:block}
+.home-head .hh span{font-size:12px;color:var(--muted)}
+.hero{
+  background:var(--purple);border-radius:30px;padding:22px;color:var(--ink);
+  position:relative;overflow:hidden;box-shadow:var(--shadow);
+}
+.hero .h-deco{position:absolute;left:-14px;top:-14px;width:110px;height:110px;background:rgba(255,255,255,.22);border-radius:46% 54% 50% 50%}
+.hero .h-deco2{position:absolute;left:44px;bottom:-26px;width:80px;height:80px;background:rgba(25,22,35,.14);border-radius:50%}
+.hero h2{font-size:26px;line-height:1.2;position:relative}
+.hero .h-sub{font-size:13px;margin-top:6px;position:relative;opacity:.8;font-weight:500}
+.hero .h-name{font-size:17px;font-weight:700;margin-top:12px;position:relative;background:rgba(255,255,255,.55);display:inline-block;padding:8px 16px;border-radius:999px}
+.hero .h-actions{display:flex;gap:8px;margin-top:16px;position:relative}
+.hero .btn{width:auto;padding:12px 22px;font-size:14px}
+.hero.rest{background:var(--blue)}
+.week{display:flex;gap:6px;margin:18px 0}
+.wday{
+  flex:1;background:rgba(255,255,255,.65);border-radius:16px;padding:10px 2px;
+  text-align:center;border:2px solid transparent;
+}
+.wday .dn{font-size:9px;color:var(--muted);font-weight:600;white-space:nowrap}
+.wday .dd{font-size:14px;font-weight:700;margin-top:2px}
+.wday .dot{width:6px;height:6px;border-radius:50%;margin:4px auto 0;visibility:hidden}
+.wday .dot.dg{background:var(--green);visibility:visible}
+.wday .dot.dr{background:var(--red);visibility:visible}
+.wday .dot.dp{background:var(--purple);visibility:visible}
+.wday.today{background:var(--ink);color:#fff}
+.wday.today .dn{color:#B9B4C8}
+.sec-title{font-size:19px;font-weight:700;margin:20px 0 12px;display:flex;justify-content:space-between;align-items:center}
+.sec-title small{font-size:12px;color:var(--muted);font-weight:500}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stat-mini{border-radius:24px;padding:16px;box-shadow:var(--shadow)}
+.stat-mini .sm-emoji{font-size:22px}
+.stat-mini .sm-val{font-size:22px;font-weight:700;margin-top:8px}
+.stat-mini .sm-lbl{font-size:12px;color:rgba(25,22,35,.6);font-weight:500;margin-top:2px}
+.state-green{background:var(--green-soft)}
+.state-red{background:var(--red-soft)}
+.state-yellow{background:var(--yellow-soft)}
+.state-neutral{background:var(--card)}
+
+/* calories */
+.cal-box{border-radius:26px;padding:20px;box-shadow:var(--shadow);transition:background .3s}
+.cal-top{display:flex;justify-content:space-between;align-items:center}
+.cal-top .cv{font-size:28px;font-weight:700}
+.cal-top .cv small{font-size:14px;color:rgba(25,22,35,.55);font-weight:600}
+.cal-status{font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.6)}
+.cal-bar{height:10px;background:rgba(255,255,255,.65);border-radius:99px;margin-top:14px;overflow:hidden}
+.cal-bar i{display:block;height:100%;border-radius:99px;background:var(--ink);transition:width .4s ease}
+.meal-form{display:flex;gap:8px;margin-top:14px}
+.meal-form input{background:rgba(255,255,255,.8);padding:12px 14px;font-size:14px}
+.meal-form input.kcal{width:92px;flex-shrink:0;text-align:center}
+.meal-form button{background:var(--ink);color:#fff;border-radius:14px;padding:0 16px;font-size:20px;font-weight:700}
+.meal-list{margin-top:12px;display:flex;flex-direction:column;gap:6px}
+.meal{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.55);border-radius:14px;padding:9px 12px;font-size:14px}
+.meal b{margin-inline-start:auto;font-size:13px}
+.meal button{opacity:.45;font-size:15px}
+
+/* water */
+.water-box{background:var(--blue);border-radius:26px;padding:20px;box-shadow:var(--shadow)}
+.water-top{display:flex;justify-content:space-between;align-items:center}
+.water-top .wv{font-size:24px;font-weight:700}
+.cups{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.cup{
+  width:38px;height:46px;border-radius:10px 10px 14px 14px;background:rgba(255,255,255,.55);
+  display:flex;align-items:center;justify-content:center;font-size:19px;
+  border:2px solid rgba(255,255,255,.8);transition:.2s;filter:grayscale(1);opacity:.55;
+}
+.cup.full{background:#fff;filter:none;opacity:1;transform:scale(1.04)}
+.water-actions{display:flex;gap:8px;margin-top:14px}
+.water-actions .btn{padding:12px;font-size:14px}
+
+/* gauge */
+.gauge-card{display:flex;align-items:center;gap:16px}
+.gauge{position:relative;width:96px;height:96px;flex-shrink:0}
+.gauge svg{transform:rotate(-90deg)}
+.gauge .gv{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:19px}
+.gauge-info b{font-size:15px}
+.gauge-info p{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.6}
+
+/* ===== Body page ===== */
+.m-form{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.m-field label{font-size:12px;font-weight:600;color:var(--muted);display:block;margin-bottom:5px;padding-right:4px}
+.m-field input{background:#F1EDE3;padding:12px 14px;font-size:15px;text-align:center;font-weight:600}
+.m-form .full-row{grid-column:1/-1}
+.diff-row{display:flex;align-items:center;justify-content:space-between;padding:13px 4px;border-bottom:1px dashed #E5DFEF}
+.diff-row:last-child{border-bottom:none}
+.diff-row .dr-l{display:flex;align-items:center;gap:9px;font-weight:600;font-size:14px}
+.diff-row .dr-l span.de{font-size:19px}
+.diff-vals{display:flex;align-items:center;gap:10px}
+.diff-vals .now{font-weight:700;font-size:16px}
+.delta{font-size:12px;font-weight:700;padding:5px 10px;border-radius:999px}
+.delta.up{background:var(--red-soft);color:#8C2E1F}
+.delta.down{background:var(--green-soft);color:#1F6B44}
+.delta.same{background:var(--yellow-soft);color:#7A5A14}
+.hist-item{display:flex;justify-content:space-between;font-size:13px;padding:9px 4px;border-bottom:1px dashed #E5DFEF;color:var(--muted)}
+.hist-item b{color:var(--ink)}
+
+/* ===== Stats ===== */
+.seg{display:flex;background:rgba(255,255,255,.6);border-radius:999px;padding:5px;margin-bottom:16px}
+.seg button{flex:1;padding:10px;border-radius:999px;font-weight:600;font-size:14px;color:var(--muted)}
+.seg button.on{background:var(--ink);color:#fff}
+.sum-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sum-card{border-radius:24px;padding:18px;box-shadow:var(--shadow)}
+.sum-card .se{font-size:24px}
+.sum-card .sv{font-size:24px;font-weight:700;margin-top:8px}
+.sum-card .sl{font-size:12px;color:rgba(25,22,35,.6);font-weight:500;margin-top:2px;line-height:1.5}
+.cal-days{display:flex;gap:8px;margin-top:10px}
+.cal-days span{flex:1;text-align:center;border-radius:14px;padding:8px 2px;font-size:12px;font-weight:700}
+
+/* ===== Profile ===== */
+.p-head{text-align:center;padding:10px 0 18px}
+.p-head .avatar{width:74px;height:74px;font-size:36px;margin:0 auto 10px}
+.p-head b{font-size:20px}
+.p-head p{font-size:13px;color:var(--muted);margin-top:3px}
+.p-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.p-stat{border-radius:20px;padding:14px 8px;text-align:center}
+.p-stat b{font-size:17px;display:block}
+.p-stat span{font-size:11px;color:rgba(25,22,35,.6);font-weight:600}
+.p-row{display:flex;align-items:center;gap:12px;padding:15px 4px;border-bottom:1px dashed #E5DFEF;font-weight:600;font-size:14px}
+.p-row:last-child{border-bottom:none}
+.p-row .pe{font-size:20px}
+.p-row .pv{margin-inline-start:auto;color:var(--muted);font-weight:500;font-size:13px}
+.edit-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.danger{color:var(--red);font-weight:600;font-size:14px;text-align:center;padding:14px;width:100%}
+
+.toast{
+  position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--ink);color:#fff;padding:12px 22px;border-radius:999px;font-size:14px;font-weight:600;
+  opacity:0;transition:.3s;z-index:99;pointer-events:none;white-space:nowrap;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.empty{color:var(--muted);font-size:13px;text-align:center;padding:14px;line-height:1.7}
+</style>
+</head>
+<body>
+<div id="phone">
+
+  <!-- Welcome -->
+  <div id="welcome" class="screen">
+    <div class="w-blobs">
+      <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+      <div class="blob b4"></div><div class="blob b5"></div>
+    </div>
+    <div class="w-text">
+      <h1>Core Club</h1>
+      <div class="slogan">Build better days</div>
+      <p class="sub">تتبّع انشطتك، سعراتك، قياساتك واكثر في مكان واحد<br><span class="accent">( لتبني ايامًا افضل )</span></p>
+    </div>
+    <div class="w-actions">
+      <button class="btn" id="w-start">تسجيل الدخول ✨</button>
+    </div>
+  </div>
+
+  <!-- Login -->
+  <div id="login" class="screen">
+    <div class="login-card">
+      <div class="l-emoji">🔐</div>
+      <h2>تسجيل الدخول</h2>
+      <p>بياناتك تنحفظ باسمك على هذا الجهاز — ادخل بحسابك أو أنشئ حساب جديد</p>
+      <input id="l-name" placeholder="👤 اسم المستخدم (بالإنجليزي)" maxlength="15" autocomplete="username" spellcheck="false">
+      <input id="l-pin" type="password" inputmode="numeric" placeholder="🔑 الرمز السري (6 أرقام)" maxlength="6">
+      <div class="l-err" id="l-err"></div>
+      <div class="l-actions">
+        <button class="btn" onclick="doLogin()">دخول</button>
+        <button class="btn ghost" onclick="doSignup()">إنشاء حساب جديد</button>
+      </div>
+      <button class="l-back" onclick="show('welcome')">رجوع</button>
+    </div>
+  </div>
+
+  <!-- Onboarding -->
+  <div id="onboarding" class="screen">
+    <div class="ob-top">
+      <span class="ob-count" id="ob-count"></span>
+      <div class="ob-progress"><i id="ob-bar"></i></div>
+      <span style="font-weight:700;font-size:14px">Core Club</span>
+    </div>
+    <div class="stack-wrap"><div class="stack" id="stack"></div></div>
+    <div class="ob-btns">
+      <button class="btn back" id="ob-back">رجوع</button>
+      <button class="btn" id="ob-next">التالي</button>
+    </div>
+  </div>
+
+  <!-- App -->
+  <div id="app" class="screen">
+    <div class="page" id="page-home"></div>
+    <div class="page" id="page-body"></div>
+    <div class="page" id="page-stats"></div>
+    <div class="page" id="page-profile"></div>
+    <nav id="nav">
+      <button data-page="home" class="on" aria-label="الرئيسية">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>
+      </button>
+      <button data-page="body" aria-label="الجسم">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6.5 6.5v11M17.5 6.5v11M3 9v6M21 9v6M6.5 12h11"/></svg>
+      </button>
+      <button data-page="stats" aria-label="الملخص">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 20V12M12 20V4M19 20v-6"/></svg>
+      </button>
+      <button data-page="profile" aria-label="حسابي">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 5-5.5 8-5.5s6.5 1.5 8 5.5"/></svg>
+      </button>
+    </nav>
+  </div>
+
+  <div class="toast" id="toast"></div>
+</div>
+<script>
+'use strict';
+/* ================= State ================= */
+const USERS_KEY='coreclub_users',SESS_KEY='coreclub_session';
+const $=s=>document.querySelector(s);
+const $$=s=>document.querySelectorAll(s);
+let S=null,curUser=null;
+function users(){try{return JSON.parse(localStorage.getItem(USERS_KEY))||{}}catch(e){return{}}}
+function saveUsers(u){localStorage.setItem(USERS_KEY,JSON.stringify(u))}
+function dataKey(u){return'coreclub_u_'+u}
+function load(){try{return JSON.parse(localStorage.getItem(dataKey(curUser)))}catch(e){return null}}
+function save(){try{localStorage.setItem(dataKey(curUser),JSON.stringify(S))}catch(e){toast('تعذّر الحفظ — مساحة التخزين ممتلئة')}}
+
+const DAY_FULL=['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+const DAY_SHORT=['أحد','اثن','ثلا','أرب','خمي','جمع','سبت'];
+const MONTHS=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+const AR=n=>String(Math.round(Number(n)*10)/10);
+
+function key(d){const x=new Date(d);return x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0')}
+function todayKey(){return key(new Date())}
+function addDays(d,n){const x=new Date(d);x.setDate(x.getDate()+n);return x}
+function getLog(k){
+  if(!S.logs[k])S.logs[k]={meals:[],water:0,workoutDone:false,workoutName:null};
+  return S.logs[k];
+}
+function calSum(k){const l=S.logs[k];return l?l.meals.reduce((a,m)=>a+m.kcal,0):0}
+/* green: within ±100 of target OR under... per spec: green if reached target or ±100, red if >target+100, yellow if <target-100 */
+function calStatus(consumed,target){
+  if(consumed>target+100)return'red';
+  if(consumed<target-100)return'yellow';
+  return'green';
+}
+const STATUS_AR={green:'ممتاز، بالهدف 🎯',red:'تجاوزت الهدف 🔺',yellow:'أقل من الهدف 🔻'};
+
+/* ===== Workout rotation: pointer advances only on completion → missed workout shifts to next training day ===== */
+function isTrainingDay(date){return S.schedule.days.includes(new Date(date).getDay())}
+function currentWorkout(){const r=S.schedule.rotation;return r.length?r[S.schedule.pointer%r.length]:null}
+function completeWorkout(){
+  const l=getLog(todayKey());
+  if(l.workoutDone)return;
+  l.workoutDone=true;l.workoutName=currentWorkout()||'نشاط';
+  S.schedule.pointer++;
+  save();renderAll();toast('عاش! نشاط اليوم مكتمل ⚡️');
+}
+function undoWorkout(){
+  const l=getLog(todayKey());
+  if(!l.workoutDone)return;
+  l.workoutDone=false;l.workoutName=null;
+  S.schedule.pointer=Math.max(0,S.schedule.pointer-1);
+  save();renderAll();
+}
+/* discipline: completed / scheduled over last 28 days (since account creation) */
+function discipline(){
+  const start=new Date(Math.max(new Date(S.profile.createdAt+'T00:00'),addDays(new Date(),-27)));
+  let planned=0,done=0;
+  for(let d=new Date(start);key(d)<=todayKey();d=addDays(d,1)){
+    const l=S.logs[key(d)];
+    if(isTrainingDay(d))planned++;
+    if(l&&l.workoutDone)done++;
+  }
+  if(!planned)return{pct:100,done,planned};
+  return{pct:Math.min(100,Math.round(done/planned*100)),done,planned};
+}
+
+/* ================= Toast ================= */
+let toastT;
+function toast(msg){
+  const t=$('#toast');t.textContent=msg;t.classList.add('show');
+  clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+/* ================= Screens ================= */
+function show(screen){
+  $$('.screen').forEach(s=>s.classList.remove('on'));
+  $('#'+screen).classList.add('on');
+  window.scrollTo(0,0);
+}
+
+/* ================= Welcome & Login ================= */
+function boot(){
+  const sess=localStorage.getItem(SESS_KEY);
+  if(sess&&users()[sess]){
+    curUser=sess;
+    const d=load();
+    if(d&&d.profile){S=d;show('app');renderAll();return}
+  }
+  show('welcome');
+}
+/* normalize Arabic-Indic digits (١٢٣ / ۱۲۳) to English */
+const normDigits=s=>String(s)
+  .replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d))
+  .replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d));
+function lerr(msg){const e=$('#l-err');if(e)e.textContent=msg||''}
+function loginVals(){
+  return{n:$('#l-name').value.trim(),p:normDigits($('#l-pin').value.trim())};
+}
+function doLogin(){
+  const{n,p}=loginVals();
+  if(!n)return lerr('اكتب اسم المستخدم');
+  if(!p)return lerr('اكتب الرمز السري');
+  const u=users();
+  if(!u[n])return lerr('ما فيه حساب باسم «'+n+'» — اضغط "إنشاء حساب جديد"');
+  if(u[n].pin!==p)return lerr('الرمز السري غير صحيح ❌');
+  lerr('');
+  curUser=n;localStorage.setItem(SESS_KEY,n);
+  const d=load();
+  if(d&&d.profile){S=d;show('app');renderAll();toast('أهلًا بعودتك يا '+n+' 👋')}
+  else startOnboarding();
+}
+function doSignup(){
+  const{n,p}=loginVals();
+  if(!/^[A-Za-z0-9_]{3,15}$/.test(n))return lerr('اسم المستخدم بالإنجليزي فقط (أحرف وأرقام، 3-15 خانة)');
+  if(!/^\d{6}$/.test(p))return lerr('الرمز السري لازم يكون 6 أرقام بالضبط');
+  const u=users();
+  if(u[n])return lerr('الاسم «'+n+'» له حساب مسبق — اضغط "دخول" بدله');
+  lerr('');
+  u[n]={pin:p};saveUsers(u);
+  curUser=n;localStorage.setItem(SESS_KEY,n);
+  toast('تم إنشاء حسابك 🎉');
+  startOnboarding();
+}
+function logout(){localStorage.removeItem(SESS_KEY);location.reload()}
+
+/* ================= Onboarding (card stack) ================= */
+const STEPS=[
+  {key:'name',emoji:'👋',q:'هلا! وش اسمك؟',hint:'الاسم اللي بيظهر لك في الرئيسية',type:'text',ph:'اكتب اسمك'},
+  {key:'gender',emoji:'🚻',q:'جنسك؟',hint:'',type:'choice',opts:[['male','ذكر','👨'],['female','أنثى','👩']]},
+  {key:'age',emoji:'🎂',q:'كم عمرك؟',hint:'بالسنوات',type:'number',ph:'25',min:8,max:100},
+  {key:'height',emoji:'📏',q:'كم طولك؟',hint:'بالسنتيمتر',type:'number',ph:'170',min:100,max:250},
+  {key:'weight',emoji:'⚖️',q:'كم وزنك الحالي؟',hint:'بالكيلوجرام',type:'number',ph:'70',min:25,max:400,dec:true},
+  {key:'goalWeight',emoji:'🎯',q:'وش وزنك الهدف؟',hint:'الوزن اللي تطمح توصله',type:'number',ph:'65',min:25,max:400,dec:true},
+  {key:'days',emoji:'📅',q:'وش أيام أنشطتك بالأسبوع؟',hint:'اختر الأيام اللي تتمرن أو تسوي نشاط فيها',type:'weekdays'},
+  {key:'calTarget',emoji:'🔥',q:'سعراتك اليومية المطلوبة',hint:'حسبناها لك بمعادلة Mifflin-St Jeor حسب بياناتك وهدفك — وتقدر تعدلها',type:'number',ph:'2000',min:800,max:8000},
+  {key:'waterTarget',emoji:'💧',q:'كم كوب ماء باليوم هدفك؟',hint:'اقترحنا لك الرقم المناسب حسب جنسك، وتقدر تعدله',type:'number',ph:'10',min:1,max:30},
+];
+/* Mifflin-St Jeor + activity factor from weekly activity days + goal adjustment */
+function calcCalories(){
+  const g=obAns.gender,a=obAns.age,h=obAns.height,w=obAns.weight,gw=obAns.goalWeight,dn=(obAns.days||[]).length;
+  if(!(a&&h&&w))return 2000;
+  const bmr=10*w+6.25*h-5*a+(g==='male'?5:-161);
+  const f=dn<=0?1.2:dn<=2?1.375:dn<=4?1.55:dn<=6?1.725:1.9;
+  let t=bmr*f;
+  if(gw&&gw<w-0.5)t-=400;else if(gw&&gw>w+0.5)t+=300;
+  return Math.max(1200,Math.round(t/10)*10);
+}
+let obi=0,obAns={},obList=[];
+
+function startOnboarding(){
+  obi=0;obAns={};obList=[];
+  show('onboarding');renderStack();
+}
+function renderStack(){
+  const st=$('#stack');st.innerHTML='';
+  $('#ob-count').textContent=AR(obi+1)+' / '+AR(STEPS.length);
+  $('#ob-bar').style.width=((obi+1)/STEPS.length*100)+'%';
+  for(let i=Math.min(obi+2,STEPS.length-1);i>=obi;i--){
+    st.appendChild(buildCard(STEPS[i],i-obi));
+  }
+  $('#ob-next').textContent=obi===STEPS.length-1?'يلا نبدأ 🚀':'التالي';
+  $('#ob-back').style.visibility=obi===0?'hidden':'visible';
+  const inp=st.querySelector('.qcard:not(.pos1):not(.pos2) input');
+  if(inp&&window.innerWidth>500)setTimeout(()=>inp.focus(),350);
+}
+function buildCard(step,pos){
+  const c=document.createElement('div');
+  c.className='qcard'+(pos===1?' pos1':pos===2?' pos2':'');
+  let body='';
+  if(pos===0){
+    if(step.type==='text')body=`<input id="ob-in" placeholder="${step.ph}" maxlength="20" value="${esc(obAns[step.key]??'')}">`;
+    else if(step.type==='number'){
+      let v=obAns[step.key]??'';
+      if(step.key==='waterTarget'&&v==='')v=obAns.gender==='female'?8:10;
+      if(step.key==='calTarget'&&v==='')v=calcCalories();
+      body=`<input id="ob-in" type="number" inputmode="decimal" placeholder="${step.ph}" value="${v}">`;
+    }
+    else if(step.type==='choice')body=`<div class="opt-grid">${step.opts.map(o=>`<button class="opt${obAns[step.key]===o[0]?' sel':''}" data-v="${o[0]}"><span class="oe">${o[2]}</span>${o[1]}</button>`).join('')}</div>`;
+    else if(step.type==='weekdays')body=`<div class="days-grid">${DAY_FULL.map((d,i)=>`<button class="dayopt${(obAns.days||[]).includes(i)?' sel':''}" data-d="${i}">${d}</button>`).join('')}</div>`;
+    else if(step.type==='list')body=`
+      <div class="list-builder"><input id="ob-in" placeholder="مثال: يوم دفع"><button id="ob-add">+</button></div>
+      <div class="rot-chips" id="rot-chips"></div>`;
+  }
+  c.innerHTML=`<div class="q-emoji">${step.emoji}</div><div class="q-title">${step.q}</div><div class="q-hint">${step.hint}</div><div class="q-body">${body}</div>`;
+  if(pos===0)wireCard(c,step);
+  return c;
+}
+function wireCard(c,step){
+  if(step.type==='choice')c.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
+    obAns[step.key]=b.dataset.v;
+    c.querySelectorAll('.opt').forEach(x=>x.classList.toggle('sel',x===b));
+  });
+  if(step.type==='weekdays')c.querySelectorAll('.dayopt').forEach(b=>b.onclick=()=>{
+    const d=+b.dataset.d;obAns.days=obAns.days||[];
+    const i=obAns.days.indexOf(d);
+    i>=0?obAns.days.splice(i,1):obAns.days.push(d);
+    b.classList.toggle('sel');
+  });
+  if(step.type==='list'){
+    const drawChips=()=>{
+      const box=c.querySelector('#rot-chips');
+      box.innerHTML=obList.map((w,i)=>`<span class="rot-chip"><b>${AR(i+1)}</b>${esc(w)}<button data-i="${i}">✕</button></span>`).join('')||'<span class="q-hint">ما أضفت شي بعد</span>';
+      box.querySelectorAll('button').forEach(x=>x.onclick=()=>{obList.splice(+x.dataset.i,1);drawChips()});
+    };
+    const add=()=>{const v=c.querySelector('#ob-in').value.trim();if(v){obList.push(v);c.querySelector('#ob-in').value='';drawChips()}};
+    c.querySelector('#ob-add').onclick=add;
+    c.querySelector('#ob-in').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();add()}});
+    drawChips();
+  }
+  if(step.type==='text'||step.type==='number'){
+    c.querySelector('#ob-in').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();$('#ob-next').click()}});
+  }
+}
+let obLock=false;
+$('#ob-next').onclick=()=>{
+  if(obLock)return;
+  const step=STEPS[obi];
+  if(step.type==='text'){
+    const v=$('#ob-in').value.trim();
+    if(!v)return toast('اكتب اسمك أول 🙂');
+    obAns[step.key]=v;
+  }else if(step.type==='number'){
+    const v=parseFloat($('#ob-in').value);
+    if(isNaN(v)||v<step.min||v>step.max)return toast('أدخل رقم صحيح');
+    obAns[step.key]=v;
+  }else if(step.type==='choice'){
+    if(!obAns[step.key])return toast('اختر واحد من الخيارات');
+  }else if(step.type==='weekdays'){
+    if(!(obAns.days&&obAns.days.length))return toast('اختر يوم واحد على الأقل');
+  }else if(step.type==='list'){
+    if(!obList.length)return toast('أضف تمرين واحد على الأقل');
+    obAns.rotation=[...obList];
+  }
+  // animate current card out
+  const front=$('#stack .qcard:not(.pos1):not(.pos2)');
+  if(front)front.classList.add('gone');
+  if(obi<STEPS.length-1){
+    obLock=true;obi++;
+    setTimeout(()=>{renderStack();obLock=false},180);
+  }else{
+    finishOnboarding();
+  }
+};
+$('#ob-back').onclick=()=>{if(obLock||obi===0)return;obi--;renderStack()};
+function finishOnboarding(){
+  const now=new Date();
+  S={
+    profile:{
+      name:obAns.name,gender:obAns.gender,age:obAns.age,height:obAns.height,
+      startWeight:obAns.weight,goalWeight:obAns.goalWeight,
+      calTarget:obAns.calTarget,waterTarget:obAns.waterTarget,
+      createdAt:key(now)
+    },
+    schedule:{days:obAns.days.sort((a,b)=>a-b),rotation:[],pointer:0},
+    logs:{},
+    weights:[{date:todayKey(),weight:obAns.weight}]
+  };
+  save();show('app');renderAll();
+  toast('أهلًا بك في Core Club يا '+obAns.name+' 🎉 أضف جدول أنشطتك ⚡️');
+}
+
+/* ================= App nav ================= */
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let curPage='home',statRange='week';
+$$('#nav button').forEach(b=>b.onclick=()=>{
+  curPage=b.dataset.page;
+  $$('#nav button').forEach(x=>x.classList.toggle('on',x===b));
+  $$('.page').forEach(p=>p.classList.remove('on'));
+  $('#page-'+curPage).classList.add('on');
+  renderAll();window.scrollTo(0,0);
+});
+function renderAll(){
+  if(!S)return;
+  renderHome();renderBody();renderStats();renderProfile();
+  $$('.page').forEach(p=>p.classList.remove('on'));
+  $('#page-'+curPage).classList.add('on');
+}
+
+/* ================= Home ================= */
+function renderHome(){
+  const p=S.profile,tk=todayKey(),log=getLog(tk),now=new Date();
+  const consumed=calSum(tk),st=calStatus(consumed,p.calTarget);
+  const training=isTrainingDay(now),wo=currentWorkout();
+  const disc=discipline();
+  const avatar=p.gender==='female'?'👩':'🧑';
+
+  // week strip: 3 days back → 3 forward | dot: green=done, red=missed, purple=upcoming
+  let week='';
+  for(let i=-3;i<=3;i++){
+    const d=addDays(now,i),k=key(d),l=S.logs[k];
+    let dot='';
+    if(l&&l.workoutDone)dot='dg';
+    else if(isTrainingDay(d))dot=k<tk?'dr':'dp';
+    week+=`<div class="wday${i===0?' today':''}">
+      <div class="dn">${DAY_FULL[d.getDay()]}</div><div class="dd">${AR(d.getDate())}</div><div class="dot ${dot}"></div></div>`;
+  }
+
+  let hero;
+  if(!wo){
+    hero=`<div class="hero"><div class="h-deco"></div><div class="h-deco2"></div>
+        <h2>جدول الأنشطة ⚡️</h2><div class="h-sub">أضف أنشطتك بالترتيب — إذا فوّت يوم ينتقل النشاط لليوم اللي بعده تلقائيًا</div>
+        <div class="h-actions"><button class="btn" onclick="goPage('profile')">أضف أنشطتك ⚡️</button></div></div>`;
+  }else if(training){
+    hero=log.workoutDone
+      ?`<div class="hero" style="background:var(--mint)"><div class="h-deco"></div><div class="h-deco2"></div>
+          <h2>تم نشاط اليوم ✅</h2><div class="h-sub">${DAY_FULL[now.getDay()]} — كفو، حافظت على جدولك</div>
+          <div class="h-name">${esc(log.workoutName)}</div>
+          <div class="h-actions"><button class="btn ghost" onclick="undoWorkout()">تراجع</button></div></div>`
+      :`<div class="hero"><div class="h-deco"></div><div class="h-deco2"></div>
+          <h2>نشاط اليوم</h2><div class="h-sub">وإذا فاتك اليوم؟ عادي، ينتقل لبكره تلقائيًا 😉</div>
+          <div class="h-name">⚡️ ${esc(wo)}</div>
+          <div class="h-actions"><button class="btn" onclick="completeWorkout()">أتممت النشاط ✔</button></div></div>`;
+  }else{
+    hero=`<div class="hero rest"><div class="h-deco"></div><div class="h-deco2"></div>
+        <h2>يوم راحة 😴</h2><div class="h-sub">${DAY_FULL[now.getDay()]} — استشفاء وارتاح</div>
+        <div class="h-name">النشاط القادم: ${esc(wo)}</div>
+        ${log.workoutDone?`<div class="h-actions"><span class="chip">✅ سويت نشاط اليوم</span></div>`:`<div class="h-actions"><button class="btn ghost" onclick="completeWorkout()">سويت نشاطي اليوم برضه 💪</button></div>`}</div>`;
+  }
+
+  const cups=Array.from({length:p.waterTarget},(_,i)=>
+    `<button class="cup${i<log.water?' full':''}" onclick="setWater(${i+1})">💧</button>`).join('');
+
+  $('#page-home').innerHTML=`
+    <div class="home-head">
+      <div class="avatar">${avatar}</div>
+      <div class="hh"><b>هلا، ${esc(p.name)} 👋</b><span>اليوم ${AR(now.getDate())} ${MONTHS[now.getMonth()]}</span></div>
+      <span class="chip">Core Club</span>
+    </div>
+    ${hero}
+    <div class="week">${week}</div>
+    <div class="sec-title">سعرات <small>الهدف ${AR(p.calTarget)} سعرة</small></div>
+    <div class="cal-box state-${st}">
+      <div class="cal-top">
+        <div class="cv">${AR(consumed)} <small>/ ${AR(p.calTarget)} سعرة</small></div>
+        <span class="cal-status">${STATUS_AR[st]}</span>
+      </div>
+      <div class="cal-bar"><i style="width:${Math.min(100,consumed/p.calTarget*100)}%"></i></div>
+      <div class="meal-form">
+        <input id="meal-name" placeholder="وش أكلت؟ 🍽">
+        <input id="meal-kcal" class="kcal" type="number" inputmode="numeric" placeholder="سعرات">
+        <button onclick="addMeal()">+</button>
+      </div>
+      <div class="meal-list">${log.meals.map((m,i)=>
+        `<div class="meal">🍴 ${esc(m.name)} <b>${AR(m.kcal)} سعرة</b><button onclick="delMeal(${i})">✕</button></div>`).join('')}</div>
+    </div>
+    <div class="sec-title">ماء <small>${AR(log.water)} / ${AR(p.waterTarget)} كوب</small></div>
+    <div class="water-box">
+      <div class="water-top"><div class="wv">💧 ${log.water>=p.waterTarget?'وصلت هدفك! 🎉':AR(p.waterTarget-log.water)+' أكواب باقية'}</div></div>
+      <div class="cups">${cups}</div>
+      <div class="water-actions">
+        <button class="btn" onclick="setWater(${log.water+1})">+ كوب ماء</button>
+        <button class="btn ghost small" onclick="setWater(${Math.max(0,log.water-1)})">−</button>
+      </div>
+    </div>
+    <div class="sec-title">انضباطك</div>
+    <div class="card gauge-card">
+      ${gaugeSVG(disc.pct)}
+      <div class="gauge-info"><b>مقياس الانضباط (آخر 4 أسابيع)</b>
+        <p>أتممت ${AR(disc.done)} من ${AR(disc.planned)} نشاط مجدول${disc.pct>=80?' — ثبات أسطوري 🔥':disc.pct>=50?' — تمام، كمّل 👏':' — يلا نرجع للمسار 💪'}</p></div>
+    </div>`;
+}
+function gaugeSVG(pct){
+  const r=40,c=2*Math.PI*r,off=c*(1-pct/100);
+  const col=pct>=80?'var(--green)':pct>=50?'var(--yellow)':'var(--red)';
+  return`<div class="gauge"><svg width="96" height="96" viewBox="0 0 96 96">
+    <circle cx="48" cy="48" r="${r}" fill="none" stroke="#EFEAE0" stroke-width="10"/>
+    <circle cx="48" cy="48" r="${r}" fill="none" stroke="${col}" stroke-width="10" stroke-linecap="round"
+      stroke-dasharray="${c}" stroke-dashoffset="${off}"/></svg><div class="gv">${AR(pct)}%</div></div>`;
+}
+function goPage(p){const b=document.querySelector('#nav button[data-page="'+p+'"]');if(b)b.click()}
+function addMeal(){
+  const n=$('#meal-name').value.trim(),k=parseInt($('#meal-kcal').value);
+  if(!n||isNaN(k)||k<=0)return toast('اكتب الوجبة وسعراتها');
+  getLog(todayKey()).meals.push({name:n,kcal:k});
+  save();renderAll();
+}
+function delMeal(i){getLog(todayKey()).meals.splice(i,1);save();renderAll()}
+function setWater(n){
+  const l=getLog(todayKey()),t=S.profile.waterTarget;
+  const prev=l.water;
+  l.water=Math.max(0,Math.min(t+20,n));
+  save();renderAll();
+  if(prev<t&&l.water>=t)toast('وصلت هدف الماء اليوم! 💧🎉');
+}
+
+/* ================= Body (weight & measurements) ================= */
+const METRICS=[['weight','الوزن','⚖️','كجم'],['waist','الخصر','📐','سم'],['chest','الصدر','🫁','سم'],['arm','الذراع','💪','سم'],['thigh','الفخذ','🦵','سم']];
+function renderBody(){
+  const ws=S.weights;
+  const last=ws[ws.length-1]||{},prev=findPrev(ws);
+  let diffs='';
+  METRICS.forEach(([f,lbl,em,unit])=>{
+    const cur=latestVal(ws,f),pr=prevVal(ws,f);
+    if(cur==null){diffs+=`<div class="diff-row"><div class="dr-l"><span class="de">${em}</span>${lbl}</div><div class="diff-vals"><span class="now" style="color:var(--muted);font-size:13px">لا يوجد قياس</span></div></div>`;return}
+    let d='';
+    if(pr!=null){
+      const diff=+(cur-pr).toFixed(1);
+      d=diff>0?`<span class="delta up">▲ +${AR(diff)}</span>`
+        :diff<0?`<span class="delta down">▼ ${AR(diff)}</span>`
+        :`<span class="delta same">＝ ثابت</span>`;
+    }
+    diffs+=`<div class="diff-row"><div class="dr-l"><span class="de">${em}</span>${lbl}</div>
+      <div class="diff-vals">${d}<span class="now">${AR(cur)} ${unit}</span></div></div>`;
+  });
+  const goalDiff=latestVal(ws,'weight')!=null?+(latestVal(ws,'weight')-S.profile.goalWeight).toFixed(1):null;
+  const hist=[...ws].reverse().slice(0,8).map(w=>{
+    const parts=METRICS.filter(([f])=>w[f]!=null).map(([f,l,,u])=>`${l}: <b>${AR(w[f])}</b>`).join(' · ');
+    return`<div class="hist-item"><span>${fmtAR(w.date)}</span><span>${parts}</span></div>`;
+  }).join('');
+
+  $('#page-body').innerHTML=`
+    <div class="sec-title" style="margin-top:4px">الوزن والقياسات <small>🔴 زاد · 🟢 نزل · 🟡 ثابت</small></div>
+    <div class="card">${diffs}
+      ${goalDiff!=null?`<div style="margin-top:12px;text-align:center" class="q-hint">${goalDiff>0?'باقي '+AR(goalDiff)+' كجم للوصول لهدفك 🎯':goalDiff<0?'تجاوزت هدفك بـ '+AR(Math.abs(goalDiff))+' كجم! 🏆':'أنت على وزنك الهدف بالضبط! 🏆'}</div>`:''}
+    </div>
+    <div class="sec-title">قياس جديد <small>عبّي اللي تبيه فقط</small></div>
+    <div class="card">
+      <div class="m-form">
+        ${METRICS.map(([f,l,em,u])=>`<div class="m-field"><label>${em} ${l} (${u})</label><input id="m-${f}" type="number" inputmode="decimal" placeholder="—"></div>`).join('')}
+        <div class="full-row"><button class="btn" onclick="addMeasure()">حفظ القياس 📌</button></div>
+      </div>
+    </div>
+    <div class="sec-title">السجل</div>
+    <div class="card">${hist||'<div class="empty">ما فيه قياسات بعد — أضف أول قياس فوق ⬆️</div>'}</div>`;
+}
+function latestVal(ws,f){for(let i=ws.length-1;i>=0;i--)if(ws[i][f]!=null)return ws[i][f];return null}
+function prevVal(ws,f){let found=0;for(let i=ws.length-1;i>=0;i--)if(ws[i][f]!=null){found++;if(found===2)return ws[i][f]}return null}
+function findPrev(ws){return ws.length>1?ws[ws.length-2]:null}
+function fmtAR(k){const d=new Date(k+'T00:00');return AR(d.getDate())+' '+MONTHS[d.getMonth()]+' '+AR(d.getFullYear())}
+function addMeasure(){
+  const e={date:todayKey()};let any=false;
+  METRICS.forEach(([f])=>{const v=parseFloat($('#m-'+f).value);if(!isNaN(v)&&v>0){e[f]=v;any=true}});
+  if(!any)return toast('أدخل قياس واحد على الأقل');
+  S.weights.push(e);save();renderAll();toast('تم حفظ القياس ✅');
+}
+
+/* ================= Stats (weekly / monthly / yearly) ================= */
+function summarize(days){
+  const start=new Date(Math.max(new Date(S.profile.createdAt+'T00:00'),addDays(new Date(),-(days-1))));
+  let done=0,g=0,r=0,y=0,calTotal=0,calDays=0,waterTotal=0,waterHit=0,daysCount=0;
+  /* planned = from weekly activity-days count (×4 monthly, ×52 yearly) */
+  const dlen=S.schedule.days.length;
+  const planned=days===7?dlen:days===30?dlen*4:dlen*52;
+  for(let d=new Date(start);key(d)<=todayKey();d=addDays(d,1)){
+    daysCount++;
+    const k=key(d),l=S.logs[k];
+    if(l&&l.workoutDone)done++;
+    if(l&&l.meals.length){
+      const c=calSum(k);calTotal+=c;calDays++;
+      const s=calStatus(c,S.profile.calTarget);
+      s==='green'?g++:s==='red'?r++:y++;
+    }
+    if(l){waterTotal+=l.water;if(l.water>=S.profile.waterTarget)waterHit++}
+  }
+  // weight delta within range
+  const inRange=S.weights.filter(w=>w.weight!=null&&new Date(w.date+'T00:00')>=start);
+  let wDelta=null;
+  if(inRange.length>=2)wDelta=+(inRange[inRange.length-1].weight-inRange[0].weight).toFixed(1);
+  return{planned,done,g,r,y,calAvg:calDays?Math.round(calTotal/calDays):0,calDays,
+    waterAvg:daysCount?(waterTotal/daysCount).toFixed(1):0,waterHit,daysCount,wDelta};
+}
+function renderStats(){
+  const ranges={week:['أسبوعي',7],month:['شهري',30],year:['سنوي',365]};
+  const sm=summarize(ranges[statRange][1]);
+  const pct=sm.planned?Math.round(sm.done/sm.planned*100):100;
+  let wd='';
+  if(sm.wDelta==null)wd='<span class="sv" style="font-size:15px;color:var(--muted)">قياسان على الأقل مطلوبة</span>';
+  else{
+    const cls=sm.wDelta>0?'up':sm.wDelta<0?'down':'same';
+    const sign=sm.wDelta>0?'▲ +':sm.wDelta<0?'▼ ':'＝ ';
+    wd=`<div class="sv"><span class="delta ${cls}" style="font-size:18px;padding:8px 14px">${sign}${AR(sm.wDelta)} كجم</span></div>`;
+  }
+  $('#page-stats').innerHTML=`
+    <div class="sec-title" style="margin-top:4px">الملخص</div>
+    <div class="seg">${Object.entries(ranges).map(([k,v])=>`<button class="${statRange===k?'on':''}" onclick="setRange('${k}')">${v[0]}</button>`).join('')}</div>
+    <div class="sum-grid">
+      <div class="sum-card" style="background:var(--purple-soft)">
+        <div class="se">⚡️</div><div class="sv">${AR(sm.done)} / ${AR(sm.planned)}</div>
+        <div class="sl">أنشطة مكتملة من جدولك الأسبوعي<br>انضباط ${AR(pct)}%</div>
+      </div>
+      <div class="sum-card" style="background:var(--peach)">
+        <div class="se">🔥</div><div class="sv">${AR(sm.calAvg)}</div>
+        <div class="sl">متوسط السعرات اليومي<br>(${AR(sm.calDays)} يوم مسجّل)</div>
+      </div>
+      <div class="sum-card" style="background:var(--blue)">
+        <div class="se">💧</div><div class="sv">${AR(sm.waterAvg)}</div>
+        <div class="sl">متوسط أكواب الماء يوميًا<br>وصلت الهدف ${AR(sm.waterHit)} يوم</div>
+      </div>
+      <div class="sum-card" style="background:var(--card)">
+        <div class="se">⚖️</div>${wd}
+        <div class="sl">تغيّر الوزن خلال الفترة</div>
+      </div>
+    </div>
+    <div class="sec-title">الالتزام بالسعرات <small>حسب هدفك اليومي</small></div>
+    <div class="card">
+      ${sm.calDays?`<div class="q-hint" style="margin-bottom:10px;text-align:center">التزمت بهدفك <b>${AR(Math.round(sm.g/sm.calDays*100))}%</b> من الأيام المسجّلة</div>`:''}
+      <div class="cal-days">
+        <span class="state-green">🟢 بالهدف<br>${AR(sm.g)}</span>
+        <span class="state-red">🔴 تجاوز<br>${AR(sm.r)}</span>
+        <span class="state-yellow">🟡 أقل<br>${AR(sm.y)}</span>
+      </div>
+      ${sm.calDays===0?'<div class="empty">سجّل وجباتك من الرئيسية عشان تشوف تحليلك هنا</div>':''}
+    </div>
+    ${gaugeBlock()}`;
+}
+function gaugeBlock(){
+  const d=discipline();
+  return`<div class="sec-title">الانضباط العام</div>
+  <div class="card gauge-card">${gaugeSVG(d.pct)}
+    <div class="gauge-info"><b>آخر 4 أسابيع</b><p>${AR(d.done)} نشاط مكتمل من أصل ${AR(d.planned)} مجدول</p></div></div>`;
+}
+function setRange(r){statRange=r;renderStats()}
+
+/* ================= Profile ================= */
+let editing=false;
+function renderProfile(){
+  const p=S.profile;
+  const days=S.schedule.days.map(d=>DAY_FULL[d]).join('، ');
+  const cur=latestVal(S.weights,'weight')??p.startWeight;
+  let editSec='';
+  if(editing){
+    editSec=`<div class="sec-title">تعديل البيانات</div><div class="card">
+      <div class="edit-grid">
+        <div class="m-field"><label>🎯 الوزن الهدف</label><input id="e-goal" type="number" value="${p.goalWeight}"></div>
+        <div class="m-field"><label>🔥 السعرات اليومية</label><input id="e-cal" type="number" value="${p.calTarget}"></div>
+        <div class="m-field"><label>💧 أكواب الماء</label><input id="e-water" type="number" value="${p.waterTarget}"></div>
+        <div class="m-field"><label>📏 الطول (سم)</label><input id="e-height" type="number" value="${p.height}"></div>
+      </div>
+      <div class="sec-title" style="font-size:14px">📅 أيام الأنشطة</div>
+      <div class="days-grid">${DAY_FULL.map((d,i)=>`<button class="dayopt${(editDays||S.schedule.days).includes(i)?' sel':''}" onclick="toggleDay(this,${i})">${d}</button>`).join('')}</div>
+      <button class="btn" style="margin-top:14px" onclick="saveEdit()">حفظ التعديلات ✅</button>
+    </div>`;
+  }
+  $('#page-profile').innerHTML=`
+    <div class="p-head">
+      <div class="avatar">${p.gender==='female'?'👩':'🧑'}</div>
+      <b>${esc(p.name)}</b><p>عضو Core Club منذ ${fmtAR(p.createdAt)}</p>
+    </div>
+    <div class="p-stats">
+      <div class="p-stat" style="background:var(--green-soft)"><b>${AR(p.startWeight)} كجم</b><span>وزن البداية</span></div>
+      <div class="p-stat" style="background:var(--blue)"><b>${AR(cur)} كجم</b><span>الوزن الحالي</span></div>
+      <div class="p-stat" style="background:var(--peach)"><b>${AR(p.goalWeight)} كجم</b><span>الهدف</span></div>
+    </div>
+    <div class="sec-title">جدول الأنشطة ⚡️ <small>بالترتيب — الفائت ينتقل لليوم اللي بعده</small></div>
+    <div class="card">
+      <div class="list-builder"><input id="p-rot-in" placeholder="أضف نشاط (مثال: يوم دفع)"><button onclick="addRot()">+</button></div>
+      <div class="rot-chips" style="margin-top:12px">${S.schedule.rotation.map((w,i)=>`<span class="rot-chip${S.schedule.rotation.length&&i===S.schedule.pointer%S.schedule.rotation.length?' next':''}" onclick="setNext(${i})"><b>${AR(i+1)}</b>${esc(w)}<button onclick="event.stopPropagation();delRot(${i})">✕</button></span>`).join('')||'<div class="empty">ما أضفت أنشطة بعد — أضف أول نشاط فوق ⚡️</div>'}</div>
+      ${S.schedule.rotation.length?'<div class="q-hint" style="margin-top:10px">المؤطّر هو نشاطك القادم — اضغط أي نشاط عشان تخليه نشاط اليوم ويكمل الجدول من بعده</div>':''}
+    </div>
+    <div class="sec-title">بياناتي</div>
+    <div class="card">
+      <div class="p-row"><span class="pe">🚻</span> الجنس <span class="pv">${p.gender==='female'?'أنثى':'ذكر'}</span></div>
+      <div class="p-row"><span class="pe">🎂</span> العمر <span class="pv">${p.age?AR(p.age)+' سنة':'—'}</span></div>
+      <div class="p-row"><span class="pe">📏</span> الطول <span class="pv">${AR(p.height)} سم</span></div>
+      <div class="p-row"><span class="pe">🔥</span> السعرات اليومية <span class="pv">${AR(p.calTarget)} سعرة</span></div>
+      <div class="p-row"><span class="pe">💧</span> هدف الماء <span class="pv">${AR(p.waterTarget)} أكواب</span></div>
+      <div class="p-row"><span class="pe">📅</span> أيام الأنشطة <span class="pv">${days}</span></div>
+    </div>
+    <button class="btn ghost" style="margin-top:14px" onclick="toggleEdit()">${editing?'إغلاق التعديل':'تعديل بياناتي ✏️'}</button>
+    ${editSec}
+    <button class="btn ghost" style="margin-top:10px" onclick="logout()">تسجيل الخروج 🚪</button>
+    <button class="danger" onclick="resetAll()">🗑 حذف حسابي وجميع بياناتي</button>`;
+}
+let editDays=null;
+function toggleEdit(){editing=!editing;editDays=[...S.schedule.days];renderProfile()}
+function toggleDay(btn,i){
+  const idx=editDays.indexOf(i);
+  idx>=0?editDays.splice(idx,1):editDays.push(i);
+  btn.classList.toggle('sel');
+}
+function addRot(){
+  const v=$('#p-rot-in').value.trim();
+  if(!v)return toast('اكتب اسم النشاط');
+  S.schedule.rotation.push(v);save();renderAll();toast('انضاف لجدول أنشطتك ⚡️');
+}
+function delRot(i){
+  S.schedule.rotation.splice(i,1);
+  if(!S.schedule.rotation.length)S.schedule.pointer=0;
+  else S.schedule.pointer=S.schedule.pointer%S.schedule.rotation.length;
+  save();renderAll();
+}
+/* set which activity is today's/next — schedule continues from it */
+function setNext(i){
+  S.schedule.pointer=i;save();renderAll();
+  toast('تم — نشاطك القادم: '+S.schedule.rotation[i]+' ⚡️');
+}
+function saveEdit(){
+  const g=parseFloat($('#e-goal').value),c=parseInt($('#e-cal').value),
+        w=parseInt($('#e-water').value),h=parseInt($('#e-height').value);
+  if([g,c,w,h].some(isNaN))return toast('تأكد من الأرقام');
+  if(!editDays.length)return toast('اختر يوم تمرين واحد على الأقل');
+  Object.assign(S.profile,{goalWeight:g,calTarget:c,waterTarget:w,height:h});
+  S.schedule.days=editDays.sort((a,b)=>a-b);
+  editing=false;save();renderAll();toast('تم حفظ التعديلات ✅');
+}
+function resetAll(){
+  if(!confirm('متأكد؟ بيتم حذف حسابك وكل بياناتك نهائيًا'))return;
+  localStorage.removeItem(dataKey(curUser));
+  const u=users();delete u[curUser];saveUsers(u);
+  localStorage.removeItem(SESS_KEY);
+  location.reload();
+}
+
+/* ================= Boot ================= */
+$('#w-start').onclick=()=>show('login');
+$('#l-pin').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();doLogin()}});
+$('#l-name').addEventListener('input',()=>lerr(''));
+$('#l-pin').addEventListener('input',()=>lerr(''));
+try{boot()}catch(e){console.error(e);show('welcome')}
+
+</script>
+</body>
+</html>
